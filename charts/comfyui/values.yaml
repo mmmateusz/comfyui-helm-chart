@@ -102,6 +102,9 @@ gpu:
   enabled: true
   count: 1
 
+# Set to "nvidia" to use the NVIDIA runtime without claiming a GPU resource slot.
+runtimeClassName: ""
+
 # CPU/memory resource requests and limits (independent of GPU).
 resources: {}
 # limits:

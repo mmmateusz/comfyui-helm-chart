@@ -315,6 +315,10 @@
       "type": "array",
       "items": { "type": "object" },
       "description": "Extra Kubernetes objects to render alongside chart resources."
+    },
+    "runtimeClassName": {
+      "type": "string",
+      "description": "Runtime class for the pod (e.g. 'nvidia' for GPU access without a resource claim)."
     }
   },
   "additionalProperties": false

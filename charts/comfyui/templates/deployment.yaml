@@ -91,6 +91,9 @@ spec:
           persistentVolumeClaim:
             claimName: {{ include "comfyui.pvcName" . }}
       {{- end }}
+      {{- with .Values.runtimeClassName }}
+      runtimeClassName: {{ . }}
+      {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
