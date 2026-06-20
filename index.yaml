@@ -6,6 +6,35 @@ entries:
         - Initial release
       artifacthub.io/license: MIT
     apiVersion: v2
+    appVersion: cu130-megapak-pt211
+    created: "2026-06-20T12:54:07.040782859Z"
+    description: A Helm chart for deploying ComfyUI — a powerful and modular stable
+      diffusion GUI — on Kubernetes with GPU support.
+    digest: 1348298d3ea1f94dd6ef3252d4287c15ea8ec65bc10e4cb86f7d0e7bbf57b67f
+    home: https://github.com/comfyanonymous/ComfyUI
+    icon: https://raw.githubusercontent.com/mmmateusz/comfyui-helm-chart/main/assets/comfy_ui.png
+    keywords:
+    - comfyui
+    - stable-diffusion
+    - ai
+    - machine-learning
+    - gpu
+    - image-generation
+    maintainers:
+    - email: mateusz@sowa-it.com
+      name: mmateusz
+    name: comfyui
+    sources:
+    - https://github.com/mmmateusz/comfyui-helm-chart
+    type: application
+    urls:
+    - https://github.com/mmmateusz/comfyui-helm-chart/releases/download/comfyui-0.4.0/comfyui-0.4.0.tgz
+    version: 0.4.0
+  - annotations:
+      artifacthub.io/changes: |
+        - Initial release
+      artifacthub.io/license: MIT
+    apiVersion: v2
     appVersion: cu130-slim-v2
     created: "2026-06-20T11:51:16.497922051Z"
     description: A Helm chart for deploying ComfyUI — a powerful and modular stable
@@ -116,4 +145,4 @@ entries:
     urls:
     - https://github.com/mmmateusz/comfyui-helm-chart/releases/download/comfyui-0.1.0/comfyui-0.1.0.tgz
     version: 0.1.0
-generated: "2026-06-20T11:51:16.497937094Z"
+generated: "2026-06-20T12:54:07.040801945Z"
