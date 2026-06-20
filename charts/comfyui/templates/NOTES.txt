@@ -1,0 +1,20 @@
+ComfyUI has been deployed.
+
+1. Get the application URL:
+{{- if .Values.ingress.enabled }}
+  http{{ if .Values.ingress.tls.enabled }}s{{ end }}://{{ .Values.ingress.hostname }}
+{{- else if eq .Values.service.type "NodePort" }}
+  export NODE_PORT=$(kubectl get svc {{ include "comfyui.fullname" . }} -n {{ .Release.Namespace }} -o jsonpath="{.spec.ports[0].nodePort}")
+  export NODE_IP=$(kubectl get nodes -o jsonpath="{.items[0].status.addresses[0].address}")
+  echo "http://$NODE_IP:$NODE_PORT"
+{{- else }}
+  kubectl port-forward svc/{{ include "comfyui.fullname" . }} 8188:8188 -n {{ .Release.Namespace }}
+  echo "http://localhost:8188"
+{{- end }}
+
+{{- if .Values.gpu.enabled }}
+
+2. GPU support is enabled ({{ .Values.gpu.count }} GPU(s)). Ensure:
+   - The NVIDIA device plugin is installed on your cluster.
+   - GPU nodes have the appropriate tolerations configured.
+{{- end }}
