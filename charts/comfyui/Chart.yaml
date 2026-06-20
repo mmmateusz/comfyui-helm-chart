@@ -6,7 +6,7 @@ version: 0.1.0
 appVersion: "cu130-slim-v2"
 home: https://github.com/comfyanonymous/ComfyUI
 sources:
-  - https://github.com/YOUR_GITHUB_USERNAME/comfyui-helm-chart
+  - https://github.com/mmmateusz/comfyui-helm-chart
 keywords:
   - comfyui
   - stable-diffusion
