@@ -11,7 +11,7 @@ A Helm chart for deploying [ComfyUI](https://github.com/Comfy-Org/ComfyUI) on Ku
 ## Installation
 
 ```bash
-helm repo add comfyui https://YOUR_GITHUB_USERNAME.github.io/comfyui-helm-chart
+helm repo add comfyui https://mmmateusz.github.io/comfyui-helm-chart
 helm repo update
 helm install comfyui comfyui/comfyui
 ```
@@ -20,7 +20,7 @@ helm install comfyui comfyui/comfyui
 
 | Key | Default | Description |
 |-----|---------|-------------|
-| `image.repository` | `overseer66/comfyui` | Container image |
+| `image.repository` | `yanwk/comfyui-boot` | Container image |
 | `image.tag` | `""` (Chart.appVersion) | Image tag |
 | `image.pullPolicy` | `IfNotPresent` | Image pull policy |
 | `replicaCount` | `1` | Number of replicas |

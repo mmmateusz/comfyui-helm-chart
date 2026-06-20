@@ -1,0 +1,321 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "nameOverride": {
+      "type": "string",
+      "description": "Override the chart name."
+    },
+    "fullnameOverride": {
+      "type": "string",
+      "description": "Override the full release name."
+    },
+    "replicaCount": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Number of ComfyUI pod replicas."
+    },
+    "image": {
+      "type": "object",
+      "properties": {
+        "repository": {
+          "type": "string",
+          "description": "Container image repository."
+        },
+        "tag": {
+          "type": "string",
+          "description": "Container image tag. Defaults to Chart.appVersion if empty."
+        },
+        "pullPolicy": {
+          "type": "string",
+          "enum": ["Always", "IfNotPresent", "Never"],
+          "description": "Image pull policy."
+        }
+      },
+      "additionalProperties": false
+    },
+    "imagePullSecrets": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "List of image pull secrets."
+    },
+    "serviceAccount": {
+      "type": "object",
+      "properties": {
+        "create": {
+          "type": "boolean",
+          "description": "Whether to create a ServiceAccount."
+        },
+        "annotations": {
+          "type": "object",
+          "description": "Annotations to add to the ServiceAccount."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the ServiceAccount. Auto-generated if empty."
+        }
+      },
+      "additionalProperties": false
+    },
+    "podAnnotations": {
+      "type": "object",
+      "description": "Annotations to add to the pod."
+    },
+    "podLabels": {
+      "type": "object",
+      "description": "Labels to add to the pod."
+    },
+    "podSecurityContext": {
+      "type": "object",
+      "description": "Pod-level security context."
+    },
+    "securityContext": {
+      "type": "object",
+      "description": "Container-level security context."
+    },
+    "service": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["ClusterIP", "NodePort", "LoadBalancer", "ExternalName"],
+          "description": "Kubernetes Service type."
+        },
+        "ports": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "port": { "type": "integer" },
+              "targetPort": { "type": "integer" }
+            },
+            "required": ["name", "port", "targetPort"]
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "ingress": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enable Ingress resource."
+        },
+        "className": {
+          "type": "string",
+          "description": "Ingress class name."
+        },
+        "annotations": {
+          "type": "object",
+          "description": "Annotations for the Ingress resource."
+        },
+        "hostname": {
+          "type": "string",
+          "description": "Hostname for the Ingress rule."
+        },
+        "tls": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "description": "Enable TLS on the Ingress."
+            },
+            "secretName": {
+              "type": "string",
+              "description": "Name of the TLS secret."
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "route": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enable Gateway API HTTPRoute or similar route resource."
+        },
+        "apiVersion": {
+          "type": "string",
+          "description": "API version for the route resource."
+        },
+        "kind": {
+          "type": "string",
+          "enum": ["GRPCRoute", "HTTPRoute", "TCPRoute", "TLSRoute", "UDPRoute"],
+          "description": "Kind of the route resource."
+        },
+        "annotations": {
+          "type": "object"
+        },
+        "extraLabels": {
+          "type": "object"
+        },
+        "hostnames": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "parentRefs": {
+          "type": "array",
+          "items": { "type": "object" }
+        },
+        "httpsRedirect": {
+          "type": "boolean",
+          "description": "Enable HTTPS redirect."
+        },
+        "redirect": {
+          "type": "object"
+        },
+        "matches": {
+          "type": "array",
+          "items": { "type": "object" }
+        },
+        "filters": {
+          "type": "array",
+          "items": { "type": "object" }
+        },
+        "additionalRules": {
+          "type": "array",
+          "items": { "type": "object" }
+        },
+        "backendRef": {
+          "type": "object",
+          "properties": {
+            "group": { "type": "string" },
+            "kind": { "type": "string" },
+            "port": { "type": ["string", "integer"] },
+            "weight": { "type": "integer", "minimum": 0 }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "gpu": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enable NVIDIA GPU resource requests."
+        },
+        "count": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Number of GPUs to request."
+        }
+      },
+      "additionalProperties": false
+    },
+    "resources": {
+      "type": "object",
+      "properties": {
+        "limits": {
+          "type": "object",
+          "properties": {
+            "cpu": { "type": "string" },
+            "memory": { "type": "string" }
+          }
+        },
+        "requests": {
+          "type": "object",
+          "properties": {
+            "cpu": { "type": "string" },
+            "memory": { "type": "string" }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "livenessProbe": {
+      "type": "object",
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "initialDelaySeconds": { "type": "integer", "minimum": 0 },
+        "periodSeconds": { "type": "integer", "minimum": 1 },
+        "failureThreshold": { "type": "integer", "minimum": 1 }
+      },
+      "additionalProperties": false
+    },
+    "readinessProbe": {
+      "type": "object",
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "initialDelaySeconds": { "type": "integer", "minimum": 0 },
+        "periodSeconds": { "type": "integer", "minimum": 1 },
+        "failureThreshold": { "type": "integer", "minimum": 1 }
+      },
+      "additionalProperties": false
+    },
+    "persistence": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enable persistent storage."
+        },
+        "existingClaim": {
+          "type": "string",
+          "description": "Use an existing PVC instead of creating one."
+        },
+        "storageClass": {
+          "type": "string",
+          "description": "StorageClass for the PVC."
+        },
+        "accessMode": {
+          "type": "string",
+          "enum": ["ReadWriteOnce", "ReadWriteMany", "ReadOnlyMany"],
+          "description": "PVC access mode."
+        },
+        "size": {
+          "type": "string",
+          "description": "PVC size (e.g. 20Gi)."
+        },
+        "mountPath": {
+          "type": "string",
+          "description": "Path inside the container where the volume is mounted."
+        }
+      },
+      "additionalProperties": false
+    },
+    "env": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "value": { "type": "string" }
+        },
+        "required": ["name"]
+      },
+      "description": "Extra environment variables for the container."
+    },
+    "envFrom": {
+      "type": "array",
+      "items": { "type": "object" },
+      "description": "Environment from ConfigMaps or Secrets."
+    },
+    "nodeSelector": {
+      "type": "object",
+      "description": "Node selector for pod scheduling."
+    },
+    "tolerations": {
+      "type": "array",
+      "items": { "type": "object" },
+      "description": "Tolerations for pod scheduling."
+    },
+    "affinity": {
+      "type": "object",
+      "description": "Affinity rules for pod scheduling."
+    },
+    "extraObjects": {
+      "type": "array",
+      "items": { "type": "object" },
+      "description": "Extra Kubernetes objects to render alongside chart resources."
+    }
+  },
+  "additionalProperties": false
+}
