@@ -20,7 +20,7 @@ helm install comfyui comfyui/comfyui
 
 | Key | Default | Description |
 |-----|---------|-------------|
-| `image.repository` | `yanwk/comfyui-boot` | Container image |
+| `image.repository` | `yanwk/comfyui-boot` | Container image — see [YanWenKun/ComfyUI-Docker](https://github.com/YanWenKun/ComfyUI-Docker) |
 | `image.tag` | `""` (Chart.appVersion) | Image tag |
 | `image.pullPolicy` | `IfNotPresent` | Image pull policy |
 | `replicaCount` | `1` | Number of replicas |
@@ -46,6 +46,7 @@ helm install comfyui comfyui/comfyui
 | `route.extraLabels` | `{}` | Extra labels added to the route |
 | `gpu.enabled` | `true` | Request NVIDIA GPU |
 | `gpu.count` | `1` | Number of GPUs |
+| `runtimeClassName` | `""` | Pod runtime class (e.g. `nvidia`) |
 | `persistence.enabled` | `true` | Enable persistent storage |
 | `persistence.size` | `20Gi` | PVC size |
 | `persistence.storageClass` | `""` | StorageClass (empty = cluster default) |
@@ -69,6 +70,14 @@ tolerations:
   - key: nvidia.com/gpu
     operator: Exists
     effect: NoSchedule
+```
+
+To use the NVIDIA container runtime without consuming a GPU resource slot (useful when GPU access is controlled via `runtimeClassName` rather than device plugin limits), set:
+
+```yaml
+gpu:
+  enabled: false
+runtimeClassName: nvidia
 ```
 
 ## Ingress with basic auth (ingress-nginx)
