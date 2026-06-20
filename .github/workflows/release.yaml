@@ -27,10 +27,16 @@ jobs:
       - name: Install Helm
         uses: azure/setup-helm@v4
 
-      - name: Run chart-releaser
-        uses: helm/chart-releaser-action@v1.6.0
-        env:
-          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-        with:
-          charts_dir: charts
-          pages_branch_name: main
+      - name: Install chart-releaser
+        run: |
+          curl -sSL https://github.com/helm/chart-releaser/releases/download/v1.6.1/chart-releaser_1.6.1_linux_amd64.tar.gz | tar -xz
+          sudo mv cr /usr/local/bin/cr
+
+      - name: Package charts
+        run: cr package charts/comfyui
+
+      - name: Upload charts
+        run: cr upload --owner ${{ github.repository_owner }} --git-repo ${{ github.event.repository.name }} --token ${{ secrets.GITHUB_TOKEN }} --skip-existing
+
+      - name: Update index
+        run: cr index --owner ${{ github.repository_owner }} --git-repo ${{ github.event.repository.name }} --token ${{ secrets.GITHUB_TOKEN }} --pages-branch main --push
