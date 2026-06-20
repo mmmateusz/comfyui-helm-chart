@@ -1,6 +1,6 @@
 # https://artifacthub.io/docs/topics/repositories/helm-charts/
 # Fill in repositoryID after registering this repo on ArtifactHub.
-repositoryID: ""
+repositoryID: "4c638af2-e177-49b2-b67a-dc591e3c9ac9"
 owners:
   - name: mmateusz
     email: mateusz@sowa-it.com
