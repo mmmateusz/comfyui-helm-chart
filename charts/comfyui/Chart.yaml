@@ -17,6 +17,7 @@ keywords:
 maintainers:
   - name: mmateusz
     email: mateusz@sowa-it.com
+icon: https://raw.githubusercontent.com/mmmateusz/comfyui-helm-chart/main/assets/icon.png
 annotations:
   artifacthub.io/license: MIT
   artifacthub.io/changes: |

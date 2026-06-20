@@ -20,7 +20,7 @@ entries:
     - gpu
     - image-generation
     maintainers:
-    - email: mateusz@sowa-it.com
+    - email: mmateusz.sowa@gmail.com
       name: mmateusz
     name: comfyui
     sources:
