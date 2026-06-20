@@ -2,7 +2,7 @@ apiVersion: v2
 name: comfyui
 description: A Helm chart for deploying ComfyUI — a powerful and modular stable diffusion GUI — on Kubernetes with GPU support.
 type: application
-version: 0.2.5
+version: 0.2.6
 appVersion: "cu130-slim-v2"
 home: https://github.com/comfyanonymous/ComfyUI
 sources:
@@ -17,7 +17,7 @@ keywords:
 maintainers:
   - name: mmateusz
     email: mateusz@sowa-it.com
-icon: https://raw.githubusercontent.com/mmmateusz/comfyui-helm-chart/main/assets/icon.png
+icon: https://raw.githubusercontent.com/mmmateusz/comfyui-helm-chart/main/assets/comfy_ui.png
 annotations:
   artifacthub.io/license: MIT
   artifacthub.io/changes: |
