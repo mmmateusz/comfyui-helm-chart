@@ -1,5 +1,9 @@
 # ComfyUI Helm Chart
 
+[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/comfyui)](https://artifacthub.io/packages/search?repo=comfyui)
+[![Build Status](https://github.com/mmmateusz/comfyui-helm-chart/actions/workflows/checks.yaml/badge.svg)](https://github.com/mmmateusz/comfyui-helm-chart/actions)
+
+
 A Helm chart for deploying [ComfyUI](https://github.com/Comfy-Org/ComfyUI) on Kubernetes with GPU support.
 
 ## Prerequisites
@@ -154,12 +158,17 @@ route:
     port: 8080
 ```
 
+## Troubleshooting
+
+### `ERROR: 1 required model is missing`
+
+ComfyUI requires at least one checkpoint model to function. If you see this error, download a proposed model and place it inside the container at:
+
+```
+/root/ComfyUI/models/checkpoints/
+```
+
 ## Roadmap
 
-- **Non-root security** — run ComfyUI as an unprivileged user to satisfy stricter pod security policies
-- **High Availability** — support multiple replicas sharing models via S3/GCS or NFS (`ReadWriteMany`), unlocking the `Deployment` workload type for HA setups
-
-## ArtifactHub
-
-[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/comfyui)](https://artifacthub.io/packages/search?repo=comfyui)
-[![Build Status](https://github.com/mmmateusz/comfyui-helm-chart/actions/workflows/checks.yaml/badge.svg)](https://github.com/mmmateusz/comfyui-helm-chart/actions)
+- **Non-root security** - run ComfyUI as an unprivileged user to satisfy stricter pod security policies
+- **High Availability** - support multiple replicas sharing models via S3/GCS or NFS (`ReadWriteMany`), unlocking the `Deployment` workload type for HA setups

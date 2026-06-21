@@ -2,7 +2,7 @@ apiVersion: v2
 name: comfyui
 description: A Helm chart for deploying ComfyUI — a powerful and modular stable diffusion GUI — on Kubernetes with GPU support.
 type: application
-version: 0.5.0
+version: 0.5.1
 appVersion: "cu130-megapak-pt211"
 home: https://github.com/comfyanonymous/ComfyUI
 sources:
@@ -21,4 +21,4 @@ icon: https://raw.githubusercontent.com/mmmateusz/comfyui-helm-chart/main/assets
 annotations:
   artifacthub.io/license: MIT
   artifacthub.io/changes: |
-    - Replaced Deployment type to Statefulset
+    - Eliminated repeated comfyui name in all resources
