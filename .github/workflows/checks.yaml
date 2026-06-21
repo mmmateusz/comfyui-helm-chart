@@ -1,0 +1,55 @@
+name: Checks
+
+on:
+  pull_request:
+    paths:
+      - "charts/comfyui/**"
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  chart-version-bump:
+    name: Chart version and changelog
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify Chart.yaml version and changelog updated
+        run: |
+          BASE_REF="origin/${{ github.base_ref }}"
+
+          BASE_VERSION=$(git show "$BASE_REF:charts/comfyui/Chart.yaml" | grep '^version:' | awk '{print $2}')
+          HEAD_VERSION=$(grep '^version:' charts/comfyui/Chart.yaml | awk '{print $2}')
+
+          BASE_CHANGES=$(git show "$BASE_REF:charts/comfyui/Chart.yaml" \
+            | python3 -c "import sys, yaml; d = yaml.safe_load(sys.stdin); print(d.get('annotations', {}).get('artifacthub.io/changes', ''))")
+          HEAD_CHANGES=$(python3 -c \
+            "import yaml; d = yaml.safe_load(open('charts/comfyui/Chart.yaml')); print(d.get('annotations', {}).get('artifacthub.io/changes', ''))")
+
+          echo "Base version : $BASE_VERSION"
+          echo "Head version : $HEAD_VERSION"
+
+          FAILED=false
+
+          if [ "$BASE_VERSION" = "$HEAD_VERSION" ]; then
+            echo "::error file=charts/comfyui/Chart.yaml::Chart version was not bumped (still $HEAD_VERSION). Please update 'version' in Chart.yaml."
+            FAILED=true
+          fi
+
+          if [ "$BASE_CHANGES" = "$HEAD_CHANGES" ]; then
+            echo "::error file=charts/comfyui/Chart.yaml::artifacthub.io/changes annotation was not updated. Please describe your changes."
+            FAILED=true
+          fi
+
+          [ "$FAILED" = "true" ] && exit 1
+
+          echo "Chart version bumped from $BASE_VERSION to $HEAD_VERSION and changelog updated."

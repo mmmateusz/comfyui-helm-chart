@@ -1,6 +1,11 @@
 nameOverride: ""
 fullnameOverride: ""
 
+# Workload type: StatefulSet (default) or Deployment.
+# StatefulSet is required for local persistent storage (models, outputs, custom nodes).
+# Deployment is reserved for future HA use with shared external storage (e.g. GCS, S3 via CSI).
+workloadType: StatefulSet
+
 replicaCount: 1
 
 image:
@@ -117,13 +122,13 @@ resources: {}
 # Liveness / readiness probes (TCP check on the ComfyUI port).
 livenessProbe:
   enabled: true
-  initialDelaySeconds: 30
+  initialDelaySeconds: 60
   periodSeconds: 15
   failureThreshold: 6
 
 readinessProbe:
   enabled: true
-  initialDelaySeconds: 15
+  initialDelaySeconds: 50
   periodSeconds: 10
   failureThreshold: 3
 
@@ -133,8 +138,27 @@ persistence:
   existingClaim: ""
   storageClass: ""
   accessMode: ReadWriteOnce
-  size: 20Gi
-  mountPath: /home/runner
+  size: 50Gi
+  # Each entry is mounted from a subPath within the single PVC
+  mounts:
+    - mountPath: /root/.cache
+      subPath: cache          # includes huggingface/hub and torch/hub
+    - mountPath: /root/.config
+      subPath: config
+    - mountPath: /root/.local
+      subPath: local
+    - mountPath: /root/ComfyUI/custom_nodes
+      subPath: custom_nodes
+    - mountPath: /root/ComfyUI/models
+      subPath: models
+    - mountPath: /root/ComfyUI/input
+      subPath: input
+    - mountPath: /root/ComfyUI/output
+      subPath: output
+    - mountPath: /root/ComfyUI/user
+      subPath: user
+    - mountPath: /root/user-scripts
+      subPath: user-scripts
 
 # Extra environment variables injected into the container.
 env: []

@@ -10,6 +10,11 @@
       "type": "string",
       "description": "Override the full release name."
     },
+    "workloadType": {
+      "type": "string",
+      "enum": ["StatefulSet", "Deployment"],
+      "description": "Workload type. StatefulSet (default) for local persistent storage; Deployment reserved for future HA with shared external storage."
+    },
     "replicaCount": {
       "type": "integer",
       "minimum": 1,
@@ -274,9 +279,18 @@
           "type": "string",
           "description": "PVC size (e.g. 20Gi)."
         },
-        "mountPath": {
-          "type": "string",
-          "description": "Path inside the container where the volume is mounted."
+        "mounts": {
+          "type": "array",
+          "description": "List of subPath mounts from the single PVC into the container.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "mountPath": { "type": "string", "description": "Absolute path inside the container." },
+              "subPath": { "type": "string", "description": "Subdirectory within the PVC." }
+            },
+            "required": ["mountPath", "subPath"],
+            "additionalProperties": false
+          }
         }
       },
       "additionalProperties": false

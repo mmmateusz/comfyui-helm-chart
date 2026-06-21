@@ -20,6 +20,7 @@ helm install comfyui comfyui/comfyui
 
 | Key | Default | Description |
 |-----|---------|-------------|
+| `workloadType` | `StatefulSet` | Workload type: `StatefulSet` (default, required for local persistent storage) or `Deployment` (reserved for future HA) |
 | `image.repository` | `yanwk/comfyui-boot` | Container image — see [YanWenKun/ComfyUI-Docker](https://github.com/YanWenKun/ComfyUI-Docker) |
 | `image.tag` | `""` (Chart.appVersion) | Image tag |
 | `image.pullPolicy` | `IfNotPresent` | Image pull policy |
@@ -48,10 +49,10 @@ helm install comfyui comfyui/comfyui
 | `gpu.count` | `1` | Number of GPUs |
 | `runtimeClassName` | `""` | Pod runtime class (e.g. `nvidia`) |
 | `persistence.enabled` | `true` | Enable persistent storage |
-| `persistence.size` | `20Gi` | PVC size |
+| `persistence.size` | `50Gi` | PVC size |
 | `persistence.storageClass` | `""` | StorageClass (empty = cluster default) |
 | `persistence.existingClaim` | `""` | Use an existing PVC instead of creating one |
-| `persistence.mountPath` | `/home/runner` | Mount path inside the container |
+| `persistence.mounts` | see values.yaml | List of `{mountPath, subPath}` entries — each maps a container path to a subdirectory of the PVC, skipping the ComfyUI installation itself |
 | `env` | `[]` | Extra environment variables |
 | `envFrom` | `[]` | Environment from ConfigMaps / Secrets |
 | `nodeSelector` | `{}` | Node selector |
@@ -153,6 +154,12 @@ route:
     port: 8080
 ```
 
+## Roadmap
+
+- **Non-root security** — run ComfyUI as an unprivileged user to satisfy stricter pod security policies
+- **High Availability** — support multiple replicas sharing models via S3/GCS or NFS (`ReadWriteMany`), unlocking the `Deployment` workload type for HA setups
+
 ## ArtifactHub
 
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/comfyui)](https://artifacthub.io/packages/search?repo=comfyui)
+[![Build Status](https://github.com/mmmateusz/comfyui-helm-chart/actions/workflows/checks.yaml/badge.svg)](https://github.com/mmmateusz/comfyui-helm-chart/actions)

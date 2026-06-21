@@ -4,4 +4,3 @@ charts/*/charts/
 .cr-release-packages/
 .cr-index/
 .claude
-copy/

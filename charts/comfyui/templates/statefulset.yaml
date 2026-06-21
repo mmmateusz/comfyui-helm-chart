@@ -1,12 +1,13 @@
-{{- if eq .Values.workloadType "Deployment" }}
+{{- if eq .Values.workloadType "StatefulSet" }}
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: {{ include "comfyui.fullname" . }}
   labels:
     {{- include "comfyui.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
+  serviceName: {{ include "comfyui.fullname" . }}
   selector:
     matchLabels:
       {{- include "comfyui.selectorLabels" . | nindent 6 }}
@@ -89,11 +90,11 @@ spec:
               subPath: {{ .subPath }}
             {{- end }}
           {{- end }}
-      {{- if .Values.persistence.enabled }}
+      {{- if and .Values.persistence.enabled .Values.persistence.existingClaim }}
       volumes:
         - name: data
           persistentVolumeClaim:
-            claimName: {{ include "comfyui.pvcName" . }}
+            claimName: {{ .Values.persistence.existingClaim }}
       {{- end }}
       {{- with .Values.runtimeClassName }}
       runtimeClassName: {{ . }}
@@ -110,4 +111,18 @@ spec:
       affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+  {{- if and .Values.persistence.enabled (not .Values.persistence.existingClaim) }}
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes:
+          - {{ .Values.persistence.accessMode }}
+        resources:
+          requests:
+            storage: {{ .Values.persistence.size }}
+        {{- if .Values.persistence.storageClass }}
+        storageClassName: {{ .Values.persistence.storageClass }}
+        {{- end }}
+  {{- end }}
 {{- end }}
