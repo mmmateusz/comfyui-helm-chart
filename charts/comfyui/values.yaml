@@ -181,6 +181,12 @@ tolerations: []
 
 affinity: {}
 
+customNode405Fix: true
+
+initContainers: []
+extraVolumes: []
+extraVolumeMounts: []
+
 # Arbitrary extra Kubernetes objects rendered alongside chart resources.
 extraObjects: []
 # Example — basic-auth secret for ingress-nginx:

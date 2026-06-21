@@ -32,6 +32,26 @@ spec:
       securityContext:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- if or .Values.customNode405Fix .Values.initContainers }}
+      initContainers:
+        {{- if .Values.customNode405Fix }}
+        - name: install-fix-url-encoding
+          image: busybox:1.36
+          command:
+            - sh
+            - -c
+            - mkdir -p /custom_nodes/fix_url_encoding && cp /scripts/__init__.py /custom_nodes/fix_url_encoding/__init__.py
+          volumeMounts:
+            - name: data
+              mountPath: /custom_nodes
+              subPath: custom_nodes
+            - name: {{ include "comfyui.fullname" . }}-fix-url-encoding
+              mountPath: /scripts
+        {{- end }}
+        {{- with .Values.initContainers }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      {{- end }}
       containers:
         - name: comfyui
           image: {{ include "comfyui.image" . }}
@@ -89,13 +109,24 @@ spec:
               mountPath: {{ .mountPath }}
               subPath: {{ .subPath }}
             {{- end }}
+            {{- with .Values.extraVolumeMounts }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
           {{- end }}
-      {{- if and .Values.persistence.enabled .Values.persistence.existingClaim }}
       volumes:
+        {{- if and .Values.persistence.enabled .Values.persistence.existingClaim }}
         - name: data
           persistentVolumeClaim:
             claimName: {{ .Values.persistence.existingClaim }}
-      {{- end }}
+        {{- end }}
+        {{- if .Values.customNode405Fix }}
+        - name: {{ include "comfyui.fullname" . }}-fix-url-encoding
+          configMap:
+            name: {{ include "comfyui.fullname" . }}-fix-url-encoding
+        {{- end }}
+        {{- with .Values.extraVolumes }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
       {{- with .Values.runtimeClassName }}
       runtimeClassName: {{ . }}
       {{- end }}

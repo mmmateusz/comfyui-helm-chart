@@ -1,7 +1,7 @@
 # ComfyUI Helm Chart
 
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/comfyui)](https://artifacthub.io/packages/search?repo=comfyui)
-[![Build Status](https://github.com/mmmateusz/comfyui-helm-chart/actions/workflows/checks.yaml/badge.svg)](https://github.com/mmmateusz/comfyui-helm-chart/actions)
+[![Build Status](https://github.com/mmmateusz/comfyui-helm-chart/actions/workflows/checks.yaml/badge.svg?branch=main)](https://github.com/mmmateusz/comfyui-helm-chart/actions/workflows/checks.yaml)
 
 
 A Helm chart for deploying [ComfyUI](https://github.com/Comfy-Org/ComfyUI) on Kubernetes with GPU support.
@@ -65,6 +65,7 @@ helm install comfyui comfyui/comfyui
 | `resources` | `{}` | CPU/memory resource requests and limits |
 | `podAnnotations` | `{}` | Pod annotations |
 | `serviceAccount.create` | `true` | Create a ServiceAccount |
+| `customNode405Fix` | `true` | Install a built-in custom node that fixes 405 errors on `/userdata/` paths containing special characters (spaces, Unicode) — see [#1475](https://github.com/modal-labs/modal-examples/issues/1475) |
 
 ## GPU nodes
 
@@ -158,7 +159,17 @@ route:
     port: 8080
 ```
 
-## Troubleshooting
+## Troubleshooting / known issues
+
+### 405 errors on `/userdata/` paths with special characters
+
+ComfyUI's `/api/userdata/` and `/userdata/` endpoints return 405 when the file path contains spaces or Unicode characters because the URL is double-encoded before routing ([issue #1475](https://github.com/modal-labs/modal-examples/issues/1475)).
+
+The chart ships a fix enabled by default (`customNode405Fix: true`). It installs a Python middleware as a custom node via an init container on every pod start. Introduced in 0.6.0 Chart version.
+
+### Asset list disappears after restart
+
+After a pod restart, the list of output assets visible in the ComfyUI UI may appear empty. This is a known bug in ComfyUI itself, not a problem with the Helm deployment or persistence — the files are still on the PVC. See [ComfyUI issue #13061](https://github.com/Comfy-Org/ComfyUI/issues/13061) for details and status.
 
 ### `ERROR: 1 required model is missing`
 

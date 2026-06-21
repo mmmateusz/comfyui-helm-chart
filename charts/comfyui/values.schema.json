@@ -330,6 +330,25 @@
       "items": { "type": "object" },
       "description": "Extra Kubernetes objects to render alongside chart resources."
     },
+    "customNode405Fix": {
+      "type": "boolean",
+      "description": "Install the built-in URL-encoding fix custom node for /userdata/ endpoints."
+    },
+    "initContainers": {
+      "type": "array",
+      "items": { "type": "object" },
+      "description": "Init containers to run before the main container."
+    },
+    "extraVolumes": {
+      "type": "array",
+      "items": { "type": "object" },
+      "description": "Extra volumes to add to the pod."
+    },
+    "extraVolumeMounts": {
+      "type": "array",
+      "items": { "type": "object" },
+      "description": "Extra volume mounts to add to the main container."
+    },
     "runtimeClassName": {
       "type": "string",
       "description": "Runtime class for the pod (e.g. 'nvidia' for GPU access without a resource claim)."

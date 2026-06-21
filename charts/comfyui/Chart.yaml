@@ -2,9 +2,9 @@ apiVersion: v2
 name: comfyui
 description: A Helm chart for deploying ComfyUI — a powerful and modular stable diffusion GUI — on Kubernetes with GPU support.
 type: application
-version: 0.5.1
+version: 0.6.0
 appVersion: "cu130-megapak-pt211"
-home: https://github.com/comfyanonymous/ComfyUI
+home: https://github.com/Comfy-Org/ComfyUI
 sources:
   - https://github.com/mmmateusz/comfyui-helm-chart
 keywords:
@@ -21,4 +21,4 @@ icon: https://raw.githubusercontent.com/mmmateusz/comfyui-helm-chart/main/assets
 annotations:
   artifacthub.io/license: MIT
   artifacthub.io/changes: |
-    - Eliminated repeated comfyui name in all resources
+    - Added custom node to fix 405 Method Not Allowed over reverse proxy
