@@ -3,6 +3,35 @@ entries:
   comfyui:
   - annotations:
       artifacthub.io/changes: |
+        - Added simple connection test
+      artifacthub.io/license: MIT
+    apiVersion: v2
+    appVersion: cu130-megapak-pt211
+    created: "2026-07-02T09:21:58.662358548Z"
+    description: A Helm chart for deploying ComfyUI — a powerful and modular stable
+      diffusion GUI — on Kubernetes with GPU support.
+    digest: cc31cc3801fafa31238e3275e08fb7509a1ba53966ae6230130dc20705c56dad
+    home: https://github.com/Comfy-Org/ComfyUI
+    icon: https://raw.githubusercontent.com/mmmateusz/comfyui-helm-chart/main/assets/comfy_ui.png
+    keywords:
+    - comfyui
+    - stable-diffusion
+    - ai
+    - machine-learning
+    - gpu
+    - image-generation
+    maintainers:
+    - email: mateusz@sowa-it.com
+      name: mmateusz
+    name: comfyui
+    sources:
+    - https://github.com/mmmateusz/comfyui-helm-chart
+    type: application
+    urls:
+    - https://github.com/mmmateusz/comfyui-helm-chart/releases/download/comfyui-0.6.1/comfyui-0.6.1.tgz
+    version: 0.6.1
+  - annotations:
+      artifacthub.io/changes: |
         - Added custom node to fix 405 Method Not Allowed over reverse proxy
       artifacthub.io/license: MIT
     apiVersion: v2
@@ -232,4 +261,4 @@ entries:
     urls:
     - https://github.com/mmmateusz/comfyui-helm-chart/releases/download/comfyui-0.1.0/comfyui-0.1.0.tgz
     version: 0.1.0
-generated: "2026-06-21T15:55:08.576385701Z"
+generated: "2026-07-02T09:21:58.662392709Z"
