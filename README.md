@@ -4,7 +4,7 @@
 [![Build Status](https://github.com/mmmateusz/comfyui-helm-chart/actions/workflows/checks.yaml/badge.svg?branch=main)](https://github.com/mmmateusz/comfyui-helm-chart/actions/workflows/checks.yaml)
 
 
-A Helm chart for deploying [ComfyUI](https://github.com/Comfy-Org/ComfyUI) on Kubernetes with GPU support.
+A Helm chart for deploying [ComfyUI](https://github.com/Comfy-Org/ComfyUI) on Kubernetes with GPU support. You can see an example usage [here](https://github.com/mmmateusz/home-ai-platform/tree/main/infra/terraform/comfyui). 
 
 ## Prerequisites
 
@@ -181,5 +181,5 @@ ComfyUI requires at least one checkpoint model to function. If you see this erro
 
 ## Roadmap
 
-- **Non-root security** - run ComfyUI as an unprivileged user to satisfy stricter pod security policies
-- **High Availability** - support multiple replicas sharing models via S3/GCS or NFS (`ReadWriteMany`), unlocking the `Deployment` workload type for HA setups
+- [ ] **Non-root security** - run ComfyUI as an unprivileged user to satisfy stricter pod security policies
+- [ ] **High Availability** - support multiple replicas sharing models via S3/GCS or NFS (`ReadWriteMany`), unlocking the `Deployment` workload type for HA setups
